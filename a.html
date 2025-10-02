@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess The Number</title>
+  <link rel="stylesheet" href="back.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: #333;
+    }
+
+    .container {
+      background: #fff;
+      padding: 60px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-3px);
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 25px;
+      color: #555;
+    }
+
+    input[type="number"] {
+      padding: 12px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input[type="number"]:focus {
+      border: 1px solid #4facfe;
+      box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 6px;
+      padding: 12px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: #f1f1f1;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e2e2;
+      transform: scale(1.05);
+    }
+
+    #message {
+      font-size: 16px;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+
+    #message.success {
+      color: #28a745;
+    }
+
+    #message.error {
+      color: #dc3545;
+    }
+
+    #attempts {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎯 Guess The Number</h2>
+    <h4>I have chosen a number between 1 and 100. Can you find it?</h4>
+
+    <input type="number" id="guessInput" placeholder="Enter your guess" />
+
+    <div>
+      <button class="btn btn-primary" onclick="checkGuess()">Guess</button>
+      <button class="btn btn-secondary" onclick="resetGame()">Reset</button>
+    </div>
+
+    <p id="message"></p>
+    <p id="attempts"></p>
+    <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 10px;">Back to Home</a>
+  </div>
+  <script>
+    let secretNumber;
+    let tries;
+
+    function startGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      tries = 0;
+      document.getElementById("message").innerText = "";
+      document.getElementById("attempts").innerText = "Attempts: 0";
+      document.getElementById("guessInput").value = "";
+    }
+
+    function checkGuess() {
+      const guess = parseInt(document.getElementById("guessInput").value);
+      const message = document.getElementById("message");
+      tries++;
+
+      if (isNaN(guess)) {
+        message.innerText = "⚠ Please enter a valid number.";
+        message.className = "error";
+      } else if (guess < secretNumber) {
+        message.innerText = "🔼 Too low! Try a bigger number.";
+        message.className = "error";
+      } else if (guess > secretNumber) {
+        message.innerText = "🔽 Too high! Try a smaller number.";
+        message.className = "error";
+      } else {
+        message.innerText = "🎉 Congratulations! You guessed it!";
+        message.className = "success";
+      }
+
+      document.getElementById("attempts").innerText = "Attempts: " + tries;
+    }
+
+    function resetGame() {
+      startGame();
+    }
+
+    // Initialize game
+    startGame();
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fruit Scramble Game</title>
+  <link rel="stylesheet" href="back.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0fff0;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      display: flex;
+    }
+    h1 {
+      color: #ff6600;
+    }
+    #scrambled {
+      font-size: 28px;
+      margin: 20px;
+      letter-spacing: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+    input {
+      padding: 8px;
+      font-size: 18px;
+      margin: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 18px;
+      background: #ff6600;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e65c00;
+    }
+    #message {
+      font-size: 20px;
+      margin-top: 15px;
+      color: green;
+    }
+    .container{
+      background-color: white;
+      padding: 50px 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>🍇 Fruit Scramble 🍍</h1>
+  <p>Guess the fruit from the scrambled letters!</p>
+
+  <p id="scrambled"></p>
+  <input type="text" id="guessInput" placeholder="Enter fruit name">
+  <button onclick="checkGuess()">Guess</button>
+  <button onclick="newGame()">New Word</button>
+
+  <p id="message"></p>
+  <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 10px;">Back to Home</a>
+  </div>
+  <script>
+    const fruits = ["apple", "banana", "mango", "orange", "grape", "peach", "melon", "papaya", "kiwi", "plum"];
+    let currentFruit = "";
+    let scrambled = "";
+
+    function scrambleWord(word) {
+      let arr = word.split("");
+      for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr.join("");
+    }
+
+    function newGame() {
+      currentFruit = fruits[Math.floor(Math.random() * fruits.length)];
+      scrambled = scrambleWord(currentFruit);
+      while (scrambled === currentFruit) {
+        scrambled = scrambleWord(currentFruit);
+      }
+      document.getElementById("scrambled").innerText = scrambled.toUpperCase();
+      document.getElementById("message").innerText = "";
+      document.getElementById("guessInput").value = "";
+    }
+
+    function checkGuess() {
+      let guess = document.getElementById("guessInput").value.toLowerCase();
+      if (guess === currentFruit) {
+        document.getElementById("message").style.color = "green";
+        document.getElementById("message").innerText = "🎉 Correct! The fruit was " + currentFruit.toUpperCase();
+      } else {
+        document.getElementById("message").style.color = "red";
+        document.getElementById("message").innerText = "❌ Wrong! Try again.";
+      }
+    }
+
+    // start first game
+    newGame();
+  </script>
+</body>
+</html>
